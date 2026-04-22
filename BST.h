@@ -34,6 +34,7 @@ private:
   void printhelp(BSTNode<Key, E>*, int) const;
   void visit(BSTNode<Key, E>*) const;
   void postOrderhelp(BSTNode<Key, E>*) const;  // NEW
+  void printPreorderhelp(BSTNode<Key, E>*, int) const;
 
 public:
   BST() { root = NULL; nodecount = 0; }  // Constructor
@@ -53,6 +54,11 @@ public:
     root = inserthelp(root, k, e);
     nodecount++;
   }
+
+  void printPreorder() const {
+    if (root == NULL) cout << "The BST is empty.\n";
+    else printPreorderhelp(root, 0);
+}
 
   // Remove a record from the tree.
   // k Key value of record to remove.
@@ -210,4 +216,11 @@ postOrderhelp(BSTNode<Key, E>* root) const {
   postOrderhelp(root->left());          // Do left subtree
   postOrderhelp(root->right());         // Do right subtree
   visit(root);                          // Print node value
+template <typename Key, typename E>
+void BST<Key, E>::
+printPreorderhelp(BSTNode<Key, E>* root, int level) const {
+    if (root == NULL) return;
+    visit(root);                              // Print node value first
+    printPreorderhelp(root->left(), level+1); // Then left subtree
+    printPreorderhelp(root->right(), level+1);// Then right subtree
 }
